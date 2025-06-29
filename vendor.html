@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grab n Snack - Vendor Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'grab-orange': '#FF5F1F',
+                        'grab-blue': '#1A237E',
+                        'grab-black': '#212121',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tab-active {
+            border-bottom: 3px solid #FF5F1F;
+            color: #FF5F1F;
+            font-weight: 600;
+        }
+        .order-card {
+            transition: all 0.3s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .menu-item {
+            transition: all 0.2s ease;
+        }
+        .menu-item:hover {
+            background-color: #FFF3E0;
+        }
+        .rating-star {
+            color: #FFC107;
+        }
+        .rating-star-empty {
+            color: #E0E0E0;
+        }
+        .slide-in {
+            animation: slideIn 0.3s forwards;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Main Container -->
+    <div class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="bg-grab-blue text-white p-4 shadow-md">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-utensils text-2xl text-grab-orange"></i>
+                    <h1 class="text-xl font-bold">Grab n Snack</h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="relative">
+                        <i class="fas fa-bell text-xl"></i>
+                        <span class="absolute -top-1 -right-1 bg-grab-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <div class="h-8 w-8 rounded-full bg-grab-orange flex items-center justify-center">
+                        <span class="text-white font-semibold">P</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2">
+                <p class="text-sm">Welcome back, <span class="font-semibold">Papa's Place</span></p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-4">
+            <!-- Dashboard View (default) -->
+            <div id="dashboardView">
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4 border-grab-orange">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Orders</p>
+                                <h3 class="text-2xl font-bold">142</h3>
+                            </div>
+                            <div class="bg-grab-orange bg-opacity-10 p-2 rounded-full">
+                                <i class="fas fa-shopping-bag text-grab-orange"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">+12% from last week</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4 border-grab-blue">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Active Products</p>
+                                <h3 class="text-2xl font-bold">24</h3>
+                            </div>
+                            <div class="bg-grab-blue bg-opacity-10 p-2 rounded-full">
+                                <i class="fas fa-hamburger text-grab-blue"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">5 unavailable</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4 border-yellow-500">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Pending Orders</p>
+                                <h3 class="text-2xl font-bold">5</h3>
+                            </div>
+                            <div class="bg-yellow-500 bg-opacity-10 p-2 rounded-full">
+                                <i class="fas fa-clock text-yellow-500"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">2 need attention</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-4 border-l-4 border-green-500">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-gray-500 text-sm">Today's Earnings</p>
+                                <h3 class="text-2xl font-bold">KES 8,450</h3>
+                            </div>
+                            <div class="bg-green-500 bg-opacity-10 p-2 rounded-full">
+                                <i class="fas fa-money-bill-wave text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2 mt-1">
+                            <p class="text-xs text-gray-500">Week: KES 42,300</p>
+                            <p class="text-xs text-gray-500">Month: KES 168,200</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-3 text-grab-black">Quick Actions</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="showView('menuView')" class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center h-24 border border-gray-100">
+                            <div class="bg-grab-orange bg-opacity-10 p-3 rounded-full mb-2">
+                                <i class="fas fa-plus text-grab-orange"></i>
+                            </div>
+                            <span class="text-sm font-medium">Add Product</span>
+                        </button>
+                        <button onclick="showView('ordersView')" class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center h-24 border border-gray-100">
+                            <div class="bg-grab-blue bg-opacity-10 p-3 rounded-full mb-2">
+                                <i class="fas fa-list text-grab-blue"></i>
+                            </div>
+                            <span class="text-sm font-medium">View Orders</span>
+                        </button>
+                        <button onclick="showView('menuView')" class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center h-24 border border-gray-100">
+                            <div class="bg-purple-500 bg-opacity-10 p-3 rounded-full mb-2">
+                                <i class="fas fa-edit text-purple-500"></i>
+                            </div>
+                            <span class="text-sm font-medium">Update Menu</span>
+                        </button>
+                        <button onclick="showView('reviewsView')" class="bg-white rounded-lg shadow p-4 flex flex-col items-center justify-center h-24 border border-gray-100">
+                            <div class="bg-yellow-500 bg-opacity-10 p-3 rounded-full mb-2">
+                                <i class="fas fa-star text-yellow-500"></i>
+                            </div>
+                            <span class="text-sm font-medium">Reviews</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <h2 class="text-lg font-semibold text-grab-black">Recent Orders</h2>
+                        <button onclick="showView('ordersView')" class="text-sm text-grab-orange font-medium">See All</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="order-card bg-white rounded-lg shadow p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium">Order #GN2345</p>
+                                    <p class="text-sm text-gray-500">John M.</p>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pending</span>
+                            </div>
+                            <p class="text-sm mb-2">2x Chapo Smokie, 1x Soda</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 15 min ago</p>
+                                <button class="bg-grab-orange text-white text-xs px-3 py-1 rounded">Accept</button>
+                            </div>
+                        </div>
+                        
+                        <div class="order-card bg-white rounded-lg shadow p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium">Order #GN2344</p>
+                                    <p class="text-sm text-gray-500">Sarah W.</p>
+                                </div>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Preparing</span>
+                            </div>
+                            <p class="text-sm mb-2">1x Ugali & Beef, 1x Kachumbari</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 25 min ago</p>
+                                <button class="bg-green-500 text-white text-xs px-3 py-1 rounded">Ready</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders View -->
+            <div id="ordersView" class="hidden slide-in">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="showView('dashboardView')" class="text-grab-orange">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-grab-black">Orders</h2>
+                    <div class="w-6"></div> <!-- Spacer for alignment -->
+                </div>
+                
+                <div class="flex border-b mb-4">
+                    <button onclick="changeOrderTab('active')" class="flex-1 py-2 text-center tab-active" id="activeTab">Active</button>
+                    <button onclick="changeOrderTab('completed')" class="flex-1 py-2 text-center" id="completedTab">Completed</button>
+                    <button onclick="changeOrderTab('cancelled')" class="flex-1 py-2 text-center" id="cancelledTab">Cancelled</button>
+                </div>
+                
+                <div id="activeOrders" class="space-y-3">
+                    <div class="order-card bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="font-medium">Order #GN2346</p>
+                                <p class="text-sm text-gray-500">Mike K.</p>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">Pending</span>
+                        </div>
+                        <p class="text-sm mb-2">3x Nyama Choma, 2x Ugali, 1x Kachumbari</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 5 min ago</p>
+                            <div class="flex space-x-2">
+                                <button class="bg-grab-orange text-white text-xs px-3 py-1 rounded">Accept</button>
+                                <button class="bg-gray-200 text-gray-800 text-xs px-3 py-1 rounded">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="font-medium">Order #GN2345</p>
+                                <p class="text-sm text-gray-500">Jane A.</p>
+                            </div>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Preparing</span>
+                        </div>
+                        <p class="text-sm mb-2">2x Matumbo Special, 1x Soda</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 18 min ago</p>
+                            <button class="bg-green-500 text-white text-xs px-3 py-1 rounded">Mark as Ready</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="completedOrders" class="hidden space-y-3">
+                    <div class="order-card bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="font-medium">Order #GN2343</p>
+                                <p class="text-sm text-gray-500">David L.</p>
+                            </div>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Delivered</span>
+                        </div>
+                        <p class="text-sm mb-2">1x Fish & Ugali, 1x Kachumbari</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 2 hours ago</p>
+                            <p class="text-sm font-medium">KES 850</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="cancelledOrders" class="hidden space-y-3">
+                    <div class="order-card bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <p class="font-medium">Order #GN2342</p>
+                                <p class="text-sm text-gray-500">Grace M.</p>
+                            </div>
+                            <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Cancelled</span>
+                        </div>
+                        <p class="text-sm mb-2">1x Pilau, 1x Salad</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs text-gray-500"><i class="far fa-clock"></i> 5 hours ago</p>
+                            <p class="text-xs text-gray-500">Customer cancelled</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Management View -->
+            <div id="menuView" class="hidden slide-in">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="showView('dashboardView')" class="text-grab-orange">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-grab-black">Menu Management</h2>
+                    <button onclick="showAddProductForm()" class="text-grab-orange">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search menu items..." class="w-full p-2 pl-10 rounded-lg border border-gray-300">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div id="menuItems" class="space-y-3">
+                    <div class="menu-item bg-white rounded-lg shadow p-4 flex justify-between items-center">
+                        <div>
+                            <p class="font-medium">Ugali & Beef</p>
+                            <p class="text-sm text-gray-500">KES 350</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                            <button class="text-grab-blue"><i class="fas fa-edit"></i></button>
+                            <button class="text-red-500"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item bg-white rounded-lg shadow p-4 flex justify-between items-center">
+                        <div>
+                            <p class="font-medium">Chapo Smokie</p>
+                            <p class="text-sm text-gray-500">KES 150</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                            <button class="text-grab-blue"><i class="fas fa-edit"></i></button>
+                            <button class="text-red-500"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item bg-white rounded-lg shadow p-4 flex justify-between items-center">
+                        <div>
+                            <p class="font-medium">Matumbo Special</p>
+                            <p class="text-sm text-gray-500">KES 280</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" value="" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                            </label>
+                            <button class="text-grab-blue"><i class="fas fa-edit"></i></button>
+                            <button class="text-red-500"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add Product Form (hidden by default) -->
+                <div id="addProductForm" class="hidden bg-white rounded-lg shadow p-4 mt-4">
+                    <h3 class="text-lg font-semibold mb-4 text-grab-black">Add New Product</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Dish Image</label>
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                <i class="fas fa-camera text-3xl text-gray-400 mb-2"></i>
+                                <p class="text-sm text-gray-500">Click to upload or drag and drop</p>
+                                <input type="file" class="hidden">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Dish Name</label>
+                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="2"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <select class="w-full p-2 border border-gray-300 rounded-lg">
+                                <option>Main Dish</option>
+                                <option>Snacks</option>
+                                <option>Drinks</option>
+                                <option>Desserts</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Price (KES)</label>
+                            <input type="number" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="0">
+                        </div>
+                        
+                        <div class="flex space-x-3 pt-2">
+                            <button onclick="hideAddProductForm()" class="flex-1 py-2 bg-gray-200 text-gray-800 rounded-lg">Cancel</button>
+                            <button class="flex-1 py-2 bg-grab-orange text-white rounded-lg">Save Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews View -->
+            <div id="reviewsView" class="hidden slide-in">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="showView('dashboardView')" class="text-grab-orange">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-grab-black">Reviews & Ratings</h2>
+                    <div class="w-6"></div> <!-- Spacer for alignment -->
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-4">
+                    <div class="flex items-center mb-2">
+                        <div class="text-3xl font-bold mr-2">4.2</div>
+                        <div class="mr-2">
+                            <div class="flex">
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star"></i>
+                                <i class="fas fa-star rating-star-empty"></i>
+                            </div>
+                            <p class="text-xs text-gray-500">Based on 24 reviews</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 overflow-x-auto pb-2">
+                        <div class="flex-shrink-0 text-center">
+                            <div class="h-2 bg-gray-200 rounded-full w-16 mb-1">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 80%"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-star text-xs rating-star"></i>
+                                <span class="text-xs ml-1">5</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 text-center">
+                            <div class="h-2 bg-gray-200 rounded-full w-16 mb-1">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 60%"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-star text-xs rating-star"></i>
+                                <span class="text-xs ml-1">4</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 text-center">
+                            <div class="h-2 bg-gray-200 rounded-full w-16 mb-1">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 20%"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-star text-xs rating-star"></i>
+                                <span class="text-xs ml-1">3</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 text-center">
+                            <div class="h-2 bg-gray-200 rounded-full w-16 mb-1">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 10%"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-star text-xs rating-star"></i>
+                                <span class="text-xs ml-1">2</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 text-center">
+                            <div class="h-2 bg-gray-200 rounded-full w-16 mb-1">
+                                <div class="h-2 bg-yellow-500 rounded-full" style="width: 5%"></div>
+                            </div>
+                            <div class="flex justify-center">
+                                <i class="fas fa-star text-xs rating-star"></i>
+                                <span class="text-xs ml-1">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between mb-2">
+                            <div>
+                                <p class="font-medium">James K.</p>
+                                <div class="flex">
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">2 days ago</p>
+                        </div>
+                        <p class="text-sm mb-3">The best ugali and beef in town! Always fresh and tasty. Delivery was quick too.</p>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-500 mb-1">Your reply:</p>
+                            <p class="text-sm">Thank you James! We're happy you enjoyed our food. Karibu tena!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex justify-between mb-2">
+                            <div>
+                                <p class="font-medium">Mary W.</p>
+                                <div class="flex">
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star"></i>
+                                    <i class="fas fa-star rating-star-empty"></i>
+                                    <i class="fas fa-star rating-star-empty"></i>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">1 week ago</p>
+                        </div>
+                        <p class="text-sm mb-3">The chapati was cold when it arrived. Please improve packaging for hot items.</p>
+                        <div class="border-t pt-3">
+                            <textarea class="w-full p-2 border border-gray-300 rounded-lg text-sm" rows="2" placeholder="Write a reply..."></textarea>
+                            <button class="mt-2 text-sm bg-grab-orange text-white px-3 py-1 rounded">Send Reply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile View -->
+            <div id="profileView" class="hidden slide-in">
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="showView('dashboardView')" class="text-grab-orange">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 class="text-lg font-semibold text-grab-black">Profile & Settings</h2>
+                    <button onclick="saveProfile()" class="text-grab-orange font-medium">Save</button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-4">
+                    <div class="flex flex-col items-center mb-4">
+                        <div class="relative mb-3">
+                            <div class="h-20 w-20 rounded-full bg-grab-orange flex items-center justify-center text-white text-2xl font-bold">
+                                PP
+                            </div>
+                            <button class="absolute bottom-0 right-0 bg-grab-blue text-white p-1 rounded-full">
+                                <i class="fas fa-camera text-xs"></i>
+                            </button>
+                        </div>
+                        <h3 class="text-lg font-semibold">Papa's Place</h3>
+                        <p class="text-sm text-gray-500">Rongai, Nairobi</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
+                            <input type="text" value="Papa's Place" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                            <input type="tel" value="+254 712 345 678" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <select class="w-full p-2 border border-gray-300 rounded-lg">
+                                <option>Rongai</option>
+                                <option>Gikambura</option>
+                                <option>Kisumu CBD</option>
+                                <option>Westlands</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Hours</label>
+                            <div class="flex space-x-2">
+                                <select class="flex-1 p-2 border border-gray-300 rounded-lg">
+                                    <option>8:00 AM</option>
+                                    <option>9:00 AM</option>
+                                </select>
+                                <span class="self-center">to</span>
+                                <select class="flex-1 p-2 border border-gray-300 rounded-lg">
+                                    <option>8:00 PM</option>
+                                    <option>9:00 PM</option>
+                                    <option>10:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-4">
+                    <h3 class="font-medium mb-3">Account Settings</h3>
+                    <div class="space-y-3">
+                        <button onclick="showChangePassword()" class="w-full text-left p-2 flex justify-between items-center">
+                            <span>Change Password</span>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </button>
+                        
+                        <button class="w-full text-left p-2 flex justify-between items-center text-red-500">
+                            <span>Logout</span>
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Change Password Form (hidden by default) -->
+                <div id="changePasswordForm" class="hidden bg-white rounded-lg shadow p-4 mt-4">
+                    <h3 class="text-lg font-semibold mb-4 text-grab-black">Change Password</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                            <input type="password" class="w-full p-2 border border-gray-300 rounded-lg">
+                        </div>
+                        
+                        <div class="flex space-x-3 pt-2">
+                            <button onclick="hideChangePassword()" class="flex-1 py-2 bg-gray-200 text-gray-800 rounded-lg">Cancel</button>
+                            <button class="flex-1 py-2 bg-grab-orange text-white rounded-lg">Update Password</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bg-white border-t border-gray-200 p-2">
+            <div class="flex justify-around">
+                <button onclick="showView('dashboardView')" class="flex flex-col items-center text-grab-orange">
+                    <i class="fas fa-home text-xl"></i>
+                    <span class="text-xs mt-1">Home</span>
+                </button>
+                <button onclick="showView('ordersView')" class="flex flex-col items-center text-gray-500">
+                    <i class="fas fa-clipboard-list text-xl"></i>
+                    <span class="text-xs mt-1">Orders</span>
+                </button>
+                <button onclick="showView('menuView')" class="flex flex-col items-center text-gray-500">
+                    <i class="fas fa-utensils text-xl"></i>
+                    <span class="text-xs mt-1">Menu</span>
+                </button>
+                <button onclick="showView('reviewsView')" class="flex flex-col items-center text-gray-500">
+                    <i class="fas fa-star text-xl"></i>
+                    <span class="text-xs mt-1">Reviews</span>
+                </button>
+                <button onclick="showView('profileView')" class="flex flex-col items-center text-gray-500">
+                    <i class="fas fa-user text-xl"></i>
+                    <span class="text-xs mt-1">Profile</span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Show/hide views
+        function showView(viewId) {
+            // Hide all views
+            document.querySelectorAll('main > div').forEach(view => {
+                view.classList.add('hidden');
+                view.classList.remove('slide-in');
+            });
+            
+            // Show selected view
+            const view = document.getElementById(viewId);
+            view.classList.remove('hidden');
+            setTimeout(() => {
+                view.classList.add('slide-in');
+            }, 10);
+            
+            // Update bottom nav active state
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('text-grab-orange');
+                btn.classList.add('text-gray-500');
+            });
+            
+            // Set active button based on view
+            let activeBtn;
+            switch(viewId) {
+                case 'dashboardView':
+                    activeBtn = document.querySelector('nav button:nth-child(1)');
+                    break;
+                case 'ordersView':
+                    activeBtn = document.querySelector('nav button:nth-child(2)');
+                    break;
+                case 'menuView':
+                    activeBtn = document.querySelector('nav button:nth-child(3)');
+                    break;
+                case 'reviewsView':
+                    activeBtn = document.querySelector('nav button:nth-child(4)');
+                    break;
+                case 'profileView':
+                    activeBtn = document.querySelector('nav button:nth-child(5)');
+                    break;
+            }
+            
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-500');
+                activeBtn.classList.add('text-grab-orange');
+            }
+        }
+        
+        // Order tabs functionality
+        function changeOrderTab(tab) {
+            // Update tab styles
+            document.getElementById('activeTab').classList.remove('tab-active');
+            document.getElementById('completedTab').classList.remove('tab-active');
+            document.getElementById('cancelledTab').classList.remove('tab-active');
+            
+            document.getElementById(tab + 'Tab').classList.add('tab-active');
+            
+            // Show selected tab content
+            document.getElementById('activeOrders').classList.add('hidden');
+            document.getElementById('completedOrders').classList.add('hidden');
+            document.getElementById('cancelledOrders').classList.add('hidden');
+            
+            document.getElementById(tab + 'Orders').classList.remove('hidden');
+        }
+        
+        // Add product form toggle
+        function showAddProductForm() {
+            document.getElementById('menuItems').classList.add('hidden');
+            document.getElementById('addProductForm').classList.remove('hidden');
+        }
+        
+        function hideAddProductForm() {
+            document.getElementById('menuItems').classList.remove('hidden');
+            document.getElementById('addProductForm').classList.add('hidden');
+        }
+        
+        // Change password form toggle
+        function showChangePassword() {
+            document.getElementById('changePasswordForm').classList.remove('hidden');
+        }
+        
+        function hideChangePassword() {
+            document.getElementById('changePasswordForm').classList.add('hidden');
+        }
+        
+        // Save profile (mock function)
+        function saveProfile() {
+            alert('Profile changes saved!');
+            showView('dashboardView');
+        }
+    </script>
+</body>
+</html>
